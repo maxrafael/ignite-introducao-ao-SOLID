@@ -1,0 +1,352 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "Essa é uma documentação sobre a Atlas API.",
+    "version": "1.0.0"
+  },
+  "tags":[
+    {
+        "name":"users",
+        "description":"Controle de usuários"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Cria um novo usuário.",
+        "requestBody": {
+          "required": true,
+          "description": "Campos obrigatórios para criação de um usuário.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Max Rafael",
+                  "email": "maxrafael@hotmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                        "type":"boolean"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type":"date"
+                    },
+                    "updated_at": {
+                        "type": "date"
+                    }
+                  },
+                  "example": {
+                    "admin": false,
+                    "id": "9934fb56nb-xx88-y6y7-9087-1234567890lj",
+                    "name": "Max Rafael",
+                    "email": "maxrafael@hotmail.com",
+                    "created_at": "2021-06-23T13:00:00.530Z",
+                    "updated_at": "2021-06-23T13:00:00.530Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email já está sendo utlizado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                    "type":"object",
+                        "properties":{
+                            "error":{
+                                "type":"message"
+                            }
+                        },
+                        "example":{
+                            "error":"This email is alrealdy in use."
+                    }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Retorna todos os usuários.",
+        "description": "Somente usuário `admin` pode acessar.",
+        "parameters":[
+          {
+            "name": "user_id",
+            "in": "header",
+            "description":"ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                        "type":"boolean"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type":"date"
+                    },
+                    "updated_at": {
+                        "type": "date"
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "9934fb56nb-xx88-y6y7-9087-1234567890lj",
+                      "name": "Max Rafael",
+                      "email": "maxrafael@hotmail.com",
+                      "created_at": "2021-06-23T13:00:00.530Z",
+                      "updated_at": "2021-06-23T13:00:00.530Z"
+                    },
+                    {
+                      "admin": false,
+                      "id": "9934fb56nb-xx88-y6y7-9087-1234567890lj",
+                      "name": "Pedro Rafael",
+                      "email": "pedro@hotmail.com",
+                      "created_at": "2021-06-23T13:00:00.530Z",
+                      "updated_at": "2021-06-23T13:00:00.530Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário sem permissão ou Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error":{
+                      "type":"message"
+                    }
+                  },
+                  "example":{
+                    "error":"You need to be an administrator to list all users."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}":{
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Retorna um usuário especifico.",
+        "parameters":[
+          {
+            "name": "user_id",
+            "in": "header",
+            "description":"ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                        "type":"boolean"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type":"date"
+                    },
+                    "updated_at": {
+                        "type": "date"
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "9934fb56nb-xx88-y6y7-9087-1234567890lj",
+                      "name": "Max Rafael",
+                      "email": "maxrafael@hotmail.com",
+                      "created_at": "2021-06-23T13:00:00.530Z",
+                      "updated_at": "2021-06-23T13:00:00.530Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error":{
+                      "type":"message"
+                    }
+                  },
+                  "example":{
+                    "error":"User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin":{
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Torna admin um usuário.",
+        "parameters":[
+          {
+            "name": "user_id",
+            "in": "header",
+            "description":"ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                        "type":"boolean"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type":"date"
+                    },
+                    "updated_at": {
+                        "type": "date"
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "9934fb56nb-xx88-y6y7-9087-1234567890lj",
+                      "name": "Max Rafael",
+                      "email": "maxrafael@hotmail.com",
+                      "created_at": "2021-06-23T13:00:00.530Z",
+                      "updated_at": "2021-06-23T13:00:00.530Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error":{
+                      "type":"message"
+                    }
+                  },
+                  "example":{
+                    "error":"User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
